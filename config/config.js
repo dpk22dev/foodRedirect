@@ -55,10 +55,12 @@ module.exports.getGlobbedFiles = function(globPatterns, removeRoot) {
 
 /**
  * Get the modules JavaScript files
+ * i think it returns all public/ javascript files: public/modules, public/lib got from env/all.js
  */
 module.exports.getJavaScriptAssets = function(includeTests) {
 	var output = this.getGlobbedFiles(this.assets.lib.js.concat(this.assets.js), 'public/');
-
+        // getGlobbedFiles() function is defined above
+        // this.assets.-- is got from env/all.js
 	// To include tests
 	if (includeTests) {
 		output = _.union(output, this.getGlobbedFiles(this.assets.tests));
@@ -69,6 +71,7 @@ module.exports.getJavaScriptAssets = function(includeTests) {
 
 /**
  * Get the modules CSS files
+ * i think it returns all public/ css files: public/modules, public/lib got from env/all.js
  */
 module.exports.getCSSAssets = function() {
 	var output = this.getGlobbedFiles(this.assets.lib.css.concat(this.assets.css), 'public/');

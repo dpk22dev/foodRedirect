@@ -2,6 +2,8 @@
 /**
  * Module dependencies.
  */
+
+// load the config files
 var init = require('./config/init')(),
 	config = require('./config/config'),
 	mongoose = require('mongoose'),
@@ -13,9 +15,10 @@ var init = require('./config/init')(),
  */
 
 // Bootstrap db connection
+// development.js/production.js/test.js has db field which gets in config.js
 var db = mongoose.connect(config.db, function(err) {
 	if (err) {
-		console.error(chalk.red('Could not connect to MongoDB!'));
+		console.error(chalk.red('Could not connect to MongoDB!')); // write with different fonts and background on terminal
 		console.log(chalk.red(err));
 	}
 });
@@ -27,6 +30,7 @@ var app = require('./config/express')(db);
 require('./config/passport')();
 
 // Start the app by listening on <port>
+// config is got from loading config/ directory
 app.listen(config.port);
 
 // Expose app

@@ -19,6 +19,7 @@ var getUniqueErrorMessage = function(err) {
 
 /**
  * Get the error message from error object
+ * we can use error codes in app too
  */
 exports.getErrorMessage = function(err) {
 	var message = '';

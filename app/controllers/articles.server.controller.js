@@ -3,6 +3,11 @@
 /**
  * Module dependencies.
  */
+/*
+ * 
+ * we can use controller in our controller like errorHandler
+ * we will use model for data
+ */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Article = mongoose.model('Article'),
@@ -23,7 +28,7 @@ exports.create = function(req, res) {
 		} else {
 			res.json(article);
 		}
-	});
+	}); 
 };
 
 /**
@@ -89,10 +94,10 @@ exports.list = function(req, res) {
  */
 exports.articleByID = function(req, res, next, id) {
 	Article.findById(id).populate('user', 'displayName').exec(function(err, article) {
-		if (err) return next(err);
+		if (err) return next(err); // we are calling next with error code
 		if (!article) return next(new Error('Failed to load article ' + id));
 		req.article = article;
-		next();
+		next(); // notice the next, as we know it won't be last function, user needs to do something after getting articleId
 	});
 };
 
@@ -105,5 +110,5 @@ exports.hasAuthorization = function(req, res, next) {
 			message: 'User is not authorized'
 		});
 	}
-	next();
+	next(); // call the next function
 };

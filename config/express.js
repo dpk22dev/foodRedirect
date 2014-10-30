@@ -29,13 +29,14 @@ module.exports = function(db) {
 		require(path.resolve(modelPath));
 	});
 
-	// Setting application local variables
+	// Setting application local variables from loaded config.js file, which has got variables from 
+        // env/all.js
 	app.locals.title = config.app.title;
 	app.locals.description = config.app.description;
 	app.locals.keywords = config.app.keywords;
 	app.locals.facebookAppId = config.facebook.clientID;
-	app.locals.jsFiles = config.getJavaScriptAssets();
-	app.locals.cssFiles = config.getCSSAssets();
+	app.locals.jsFiles = config.getJavaScriptAssets(); // get all public/lib/ public/modules/ js files
+	app.locals.cssFiles = config.getCSSAssets(); // get all public/lib/ public/modules/ css files
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {
@@ -52,6 +53,7 @@ module.exports = function(db) {
 	}));
 
 	// Showing stack errors
+        // i think it should not be seen in case of production
 	app.set('showStackError', true);
 
 	// Set swig as the template engine
@@ -88,7 +90,8 @@ module.exports = function(db) {
 		resave: true,
 		secret: config.sessionSecret,
 		store: new mongoStore({
-			db: db.connection.db,
+			db: db.connection.db,  // development.js/production.js/test.js has db field which gets in config.js
+                        // i think db.connection.db value is not present, don't know how it will work
 			collection: config.sessionCollection
 		})
 	}));
@@ -110,7 +113,9 @@ module.exports = function(db) {
 	// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
 
-	// Globbing routing files
+	// Globbing routing files,
+        // here we are auto loading the server route files
+        // i think, these route files use controllers, which load views, views use models for data
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
 	});
@@ -124,7 +129,8 @@ module.exports = function(db) {
 		console.error(err.stack);
 
 		// Error page
-		res.status(500).render('500', {
+		res.status(500).render('500', { 
+                    // don't know why they haven't used full name 500.server.view.html, how using '500' only works
 			error: err.stack
 		});
 	});

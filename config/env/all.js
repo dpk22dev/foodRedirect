@@ -1,5 +1,6 @@
 'use strict';
-
+// contains mainly public files required for angular app
+// take care it contains all the necessary files in assets object
 module.exports = {
 	app: {
 		title: 'MEAN.JS',

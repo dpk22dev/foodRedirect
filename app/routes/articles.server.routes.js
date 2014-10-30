@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+// get the controllers which are required for this route
 var users = require('../../app/controllers/users.server.controller'),
 	articles = require('../../app/controllers/articles.server.controller');
 
@@ -14,9 +15,9 @@ module.exports = function(app) {
 
 	app.route('/articles/:articleId')
 		.get(articles.read)
-		.put(users.requiresLogin, articles.hasAuthorization, articles.update)
+		.put(users.requiresLogin, articles.hasAuthorization, articles.update) //  articles.hasAuthorization has next()
 		.delete(users.requiresLogin, articles.hasAuthorization, articles.delete);
 
 	// Finish by binding the article middleware
-	app.param('articleId', articles.articleByID);
+	app.param('articleId', articles.articleByID); // articles.articleByID has next()
 };
