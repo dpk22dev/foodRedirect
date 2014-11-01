@@ -1,5 +1,6 @@
 'use strict';
 
+//used service here, for data we can define factory here
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
 

@@ -1,8 +1,14 @@
 'use strict';
 
 // Init the application configuration module for AngularJS application
+// this ApplicationConfiguration will be used by each module to register itself  
+// to application, although its not necessary but good to do it
+
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
+        /*
+         * register module called by modules will later add dependencies to applicationModuleVendorDependencies
+         */
 	var applicationModuleName = 'mean';
 	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.utils'];
 

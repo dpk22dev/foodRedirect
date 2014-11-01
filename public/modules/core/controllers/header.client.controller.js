@@ -1,5 +1,6 @@
 'use strict';
 
+// HeaderController is defined here
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
 	function($scope, Authentication, Menus) {
 		$scope.authentication = Authentication;
